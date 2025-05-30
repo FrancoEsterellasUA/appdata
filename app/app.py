@@ -5,23 +5,39 @@ app = Flask(__name__)
 
 @app.route("/")
 def enter_general():
-    return render_template('web-branches/general.html')
+    plots= {
+        "frequency_of_winning" : frequencywins_local_or_visit()
+    }
+
+    return render_template('web-branches/general.html',plots=plots)
 
 @app.route("/superclasico")
 def enter_page_superclasico():
-    return render_template('web-branches/superclasico.html')
+    plots={
+
+    }
+    return render_template('web-branches/superclasico.html',plots=plots)
 
 @app.route("/avellanedaclasico")
 def enter_page_avellanedaclasico():
-    return render_template('web-branches/avellanedaclasico.html')
+    plots={
+        
+    }
+    return render_template('web-branches/avellanedaclasico.html',plots=plots)
 
 @app.route("/rosarioclasico")
 def enter_page_rosarioclasico():
-    return render_template('web-branches/rosarioclasico.html')
+    plots={
+        
+    }
+    return render_template('web-branches/rosarioclasico.html',plots=plots)
 
 @app.route("/zonasurclasico")
 def enter_page_zonasurclasico():
-    return render_template('web-branches/zonasurclasico.html')
+    plots={
+        
+    }
+    return render_template('web-branches/zonasurclasico.html',plots=plots)
 
 if __name__ == "__main__":
     app.run(debug=True)
