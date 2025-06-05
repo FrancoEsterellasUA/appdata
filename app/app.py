@@ -1,5 +1,6 @@
 from flask import Flask,render_template
 from plots import *
+from modeldb import *
 
 app = Flask(__name__)
 
@@ -38,6 +39,15 @@ def enter_page_zonasurclasico():
         
     }
     return render_template('web-branches/zonasurclasico.html',plots=plots)
+
+@app.route("/chargedataset")
+def enter_page_chargedataset():
+    return render_template('web-branches/chargedataset.html')
+
+@app.route("/viewdataset")
+def enter_page_viewdataset():
+    matches = Matches.query.all()
+    return render_template('web-branches/viewdataset.html', matches=matches)
 
 if __name__ == "__main__":
     app.run(debug=True)
