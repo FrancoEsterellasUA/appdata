@@ -1,8 +1,23 @@
 from flask import Flask,render_template
 from plots import *
-from modeldb import *
+from linked import db
+from modeldb import Matches
+from sqlalchemy import create_engine,text
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///matches.db'  
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
+    engine = create_engine('sqlite:///matches.db', echo=False)
+    df= pd.read_csv('dataset\liga_2023.csv')
+    df.to_sql('matches', con=engine, if_exists='replace', index=False)
+
 
 @app.route("/")
 def enter_general():
