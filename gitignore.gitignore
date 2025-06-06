@@ -11,3 +11,7 @@ __pycache__/
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+
+__pycache__/
+*.py[cod]
+*$py.class

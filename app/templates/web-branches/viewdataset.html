@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block body %}
+<h1>Vista del dataset</h1>
+<p>Aca vamos a ver el dataset!</p>
+
+
+<div style="display: flex; flex-direction: row; justify-content: center; background-color: rgb(9, 6, 1);">
+<table  style="width: 80%; border: 2px; background-color: rgb(255, 255, 193); color: rgb(11, 7, 0);">
+  <thead style="background-color: rgb(9, 6, 3); color: rgb(255, 255, 181);">
+    <tr style="text-align: center;">
+      <th>Tournament</th>
+      <th>Local Team</th>
+      <th>Local Goals</th>
+      <th>Visit Goals</th>
+      <th>Visit Team</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in matches %}
+    <tr style="text-align: center;border: 1px solid black; border-collapse: collapse; border-color: black;">
+      <td>{{ m.date_name }}</td>
+      <td>{{ m.local_team }}</td>
+      <td>{{ m.local_result }}</td>
+      <td>{{ m.visit_result }}</td>
+      <td>{{ m.visit_team }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">No hay datos para mostrar.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
