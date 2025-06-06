@@ -30,28 +30,28 @@ def enter_general():
 @app.route("/superclasico")
 def enter_page_superclasico():
     plots={
-
+        'victoria_acumulada_super' : victoria_acumulada_super()
     }
     return render_template('web-branches/superclasico.html',plots=plots)
 
 @app.route("/avellanedaclasico")
 def enter_page_avellanedaclasico():
     plots={
-        
+        'victoria_acumulada_avellaneda' : victoria_acumulada_avellaneda()
     }
     return render_template('web-branches/avellanedaclasico.html',plots=plots)
 
 @app.route("/rosarioclasico")
 def enter_page_rosarioclasico():
     plots={
-        
+        'victoria_aculumativa_rosario' : victoria_aculumativa_rosario()
     }
     return render_template('web-branches/rosarioclasico.html',plots=plots)
 
 @app.route("/zonasurclasico")
 def enter_page_zonasurclasico():
     plots={
-        
+        'victoria_acumulado_zonasur' : victoria_acumulado_zonasur()
     }
     return render_template('web-branches/zonasurclasico.html',plots=plots)
 
