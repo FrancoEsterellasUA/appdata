@@ -11,12 +11,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+df = clasicos
+
 with app.app_context():
     db.create_all()
 
-    engine = create_engine('sqlite:///matches.db', echo=False)
-    df= pd.read_csv('dataset\liga_2023.csv')
-    df.to_sql('matches', con=engine, if_exists='replace', index=False)
+    Matches.query.delete()
+    db.session.commit()
+
+    for _, row in clasicos.iterrows():
+        match = Matches(
+            local_team=row['local_team'],
+            local_result=row['local_result'],
+            visit_result=row['visitor_result'],
+            visit_team=row['visitor_team']
+        )
+        db.session.add(match)
+
+    db.session.commit()
 
 
 @app.route("/")

@@ -1,6 +1,8 @@
 # Este archivo de Python es para crear las funciones que van a generar los graficos como PNG
 
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -79,6 +81,12 @@ def frequencywins_local_or_visit():
     return image_frequencywins_local_or_visit
 
 def victoria_aculumativa_rosario():
+    clasicos['match_result'] = clasicos.apply(lambda row: (
+    'Newells' if row['local_team'] == 'Newells' and row['local_result'] > row['visitor_result']
+    else 'Rosario Central' if row['visitor_team'] == 'Rosario Central' and row['visitor_result'] > row['local_result']
+    else 'Empate'), axis=1)
+
+    
     clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
 
     conteo = clasicos['match_result'].groupby(clasicos['anio']).value_counts().unstack(fill_value=0)
@@ -145,6 +153,11 @@ def victoria_aculumativa_rosario():
     return image_victoria_acumulada_rosario 
 
 def victoria_acumulada_super():
+    clasicos['match_result'] = clasicos.apply(lambda row: (
+    'River Plate' if row['local_team'] == 'River Plate' and row['local_result'] > row['visitor_result']
+    else 'Boca Juniors' if row['visitor_team'] == 'Boca Juniors' and row['visitor_result'] > row['local_result']
+    else 'Empate'), axis=1)
+
     clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
 
 
@@ -220,6 +233,11 @@ def victoria_acumulada_super():
     return image_victoria_acumulada_super
 
 def victoria_acumulado_zonasur():
+    clasicos['match_result'] = clasicos.apply(lambda row: (
+    'Banfield' if row['local_team'] == 'Banfield' and row['local_result'] > row['visitor_result']
+    else 'Lanus' if row['visitor_team'] == 'Lanus' and row['visitor_result'] > row['local_result']
+    else 'Empate'), axis=1)
+    
     clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
 
 
@@ -295,6 +313,11 @@ def victoria_acumulado_zonasur():
     return image_victoria_acumulada_zonasur
 
 def victoria_acumulada_avellaneda():
+    clasicos['match_result'] = clasicos.apply(lambda row: (
+    'Racing Club' if row['local_team'] == 'Racing Club' and row['local_result'] > row['visitor_result']
+    else 'Independiente' if row['visitor_team'] == 'Independiente' and row['visitor_result'] > row['local_result']
+    else 'Empate'), axis=1)
+
     clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
 
 
