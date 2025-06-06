@@ -2,7 +2,7 @@ from flask import Flask,render_template
 from plots import *
 from linked import db
 from modeldb import Matches
-from sqlalchemy import create_engine,text
+
 
 app = Flask(__name__)
 
