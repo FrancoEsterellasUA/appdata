@@ -16,30 +16,42 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.texto{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 .carrusel{
     margin: 20px;
 }
 
 /* Personalizar cards */
 
-.card-series{
-    display: flex;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    width: 100%;
-    gap: 10px;
-    padding: 15px;
+.card-series {
+  display: flex;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap: 16px;
+  padding: 15px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-.card{
-    max-width: 400px;
-    width: 100%;
-    min-width: 350px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    overflow-x: hidden;
-    display: inline-table;
+.card-series::-webkit-scrollbar {
+  display: none;
+}
+.card-series {
+  scrollbar-width: none;
+}
+
+.card {
+  flex: 0 0 auto;            
+  min-width: 300px;          
+  max-width: 400px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  scroll-snap-align: start;
 }
 
 .card-img-top{
@@ -51,7 +63,6 @@
 
 .card-text {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
