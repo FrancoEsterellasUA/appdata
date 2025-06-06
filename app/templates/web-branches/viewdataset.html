@@ -11,6 +11,7 @@
 <table  style="width: 80%; border: 2px;">
   <thead style="background-color: rgb(23, 21, 3); color: rgb(255, 255, 181);">
     <tr>
+      <th>Tournament</th>
       <th>Local Team</th>
       <th>Local Goals</th>
       <th>Visit Goals</th>
@@ -20,6 +21,7 @@
   <tbody>
     {% for m in matches %}
     <tr>
+      <td>{{ m.date_name }}</td>
       <td>{{ m.local_team }}</td>
       <td>{{ m.local_result }}</td>
       <td>{{ m.visit_result }}</td>

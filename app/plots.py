@@ -188,23 +188,19 @@ def victoria_acumulada_super():
         lc = LineCollection(segments, colors=color_cycle, linewidth=linewidth)
         ax.add_collection(lc)
 
-
     x = acumulado.index.values
     y_rc = acumulado['Boca Juniors'].values
     y_new = acumulado['River Plate'].values
 
-    # Crear gráfico
     plt.figure(figsize=(8, 5))
     plt.style.use("default")
     ax = plt.gca()
 
-    # Color
     create_decade_colored_line(ax, x, y_rc, colors=['blue', 'yellow'], linewidth=3.5)
 
 
     create_decade_colored_line(ax, x, y_new, colors=["#fae1de", 'red'], linewidth=3.0)
 
-    # Límites y ejes
     ax.set_xlim(x.min(), x.max())
     ax.set_ylim(0, max(y_rc.max(), y_new.max()) + 1)
     plt.title('Evolución Acumulada de Victorias: Boca Juniors vs River Plate')
@@ -213,7 +209,7 @@ def victoria_acumulada_super():
     plt.gca().xaxis.set_major_locator(MultipleLocator(10))
     plt.grid(False)
 
-    # Leyenda
+    
     custom_lines = [
         Line2D([0], [0], color='blue', lw=3.5, label='Boca Juniors '),
         Line2D([0], [0], color='yellow', lw=3.5),
@@ -273,18 +269,18 @@ def victoria_acumulado_zonasur():
     y_rc = acumulado['Lanus'].values
     y_new = acumulado['Banfield'].values
 
-    # Crear gráfico
+    
     plt.figure(figsize=(8, 5))
     plt.style.use("default")
     ax = plt.gca()
 
-    # Color
+    
     create_decade_colored_line(ax, x, y_rc, colors=['maroon', 'maroon'], linewidth=3.5)
 
 
     create_decade_colored_line(ax, x, y_new, colors=['green', '#8cffb1'], linewidth=3.0)
 
-    # Límites y ejes
+    
     ax.set_xlim(x.min(), x.max())
     ax.set_ylim(0, max(y_rc.max(), y_new.max()) + 1)
     plt.title('Evolución Acumulada de Victorias: Lanus vs Banfield')
@@ -293,7 +289,7 @@ def victoria_acumulado_zonasur():
     plt.gca().xaxis.set_major_locator(MultipleLocator(10))
     plt.grid(False)
 
-    # Leyenda
+    
     custom_lines = [
         Line2D([0], [0], color='maroon', lw=3.5, label='Lanus'),
 
@@ -353,18 +349,18 @@ def victoria_acumulada_avellaneda():
     y_rc = acumulado['Independiente'].values
     y_new = acumulado['Racing Club'].values
 
-    # Crear gráfico
+    
     plt.figure(figsize=(8, 5))
     plt.style.use("default")
     ax = plt.gca()
 
-    # Color
+    
     create_decade_colored_line(ax, x, y_rc, colors=['red', 'red'], linewidth=3.5)
 
 
     create_decade_colored_line(ax, x, y_new, colors=["#20bcfa", 'lightblue'], linewidth=3.0)
 
-    # Límites y ejes
+    
     ax.set_xlim(x.min(), x.max())
     ax.set_ylim(0, max(y_rc.max(), y_new.max()) + 1)
     plt.title('Evolución Acumulada de Victorias: Independiente vs Racing Club')
@@ -373,7 +369,7 @@ def victoria_acumulada_avellaneda():
     plt.gca().xaxis.set_major_locator(MultipleLocator(10))
     plt.grid(False)
 
-    # Leyenda
+    
     custom_lines = [
         Line2D([0], [0], color='red', lw=3.5, label='Independiente'),
 

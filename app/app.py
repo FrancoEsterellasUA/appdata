@@ -21,6 +21,7 @@ with app.app_context():
 
     for _, row in clasicos.iterrows():
         match = Matches(
+            date_name=row['date_name'],
             local_team=row['local_team'],
             local_result=row['local_result'],
             visit_result=row['visitor_result'],
@@ -77,5 +78,5 @@ def enter_page_viewdataset():
     return render_template('web-branches/viewdataset.html', matches=matches)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
 
