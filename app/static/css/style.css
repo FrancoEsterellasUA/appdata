@@ -20,8 +20,26 @@
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.texto-main{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin: 20px;
+  font-size: larger;
+}
+
+.texto-main-clas{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-top: 10px;
+  font-size: larger;
+}
+
 .carrusel{
-    margin: 20px;
+  margin: 20px;
+}
+
+.carousel-item{
+  max-height: 800px;
 }
 
 /* Personalizar cards */
