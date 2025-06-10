@@ -2,7 +2,7 @@ from flask import Flask,render_template
 from plots import *
 from linked import db
 from modeldb import Matches
-from sqlalchemy import create_engine,text
+
 
 app = Flask(__name__)
 
@@ -36,6 +36,7 @@ with app.app_context():
 def enter_general():
     plots= {
         "frequency_of_winning" : frequencywins_local_or_visit()
+        
     }
 
     return render_template('web-branches/general.html',plots=plots)
@@ -43,34 +44,35 @@ def enter_general():
 @app.route("/superclasico")
 def enter_page_superclasico():
     plots={
-        'victoria_acumulada_super' : victoria_acumulada_super()
+        'victoria_acumulada_super' : victoria_acumulada_super(),
+        'regresion_lineal_super' : regresion_linear_superclasico()
     }
     return render_template('web-branches/superclasico.html',plots=plots)
 
 @app.route("/avellanedaclasico")
 def enter_page_avellanedaclasico():
     plots={
-        'victoria_acumulada_avellaneda' : victoria_acumulada_avellaneda()
+        'victoria_acumulada_avellaneda' : victoria_acumulada_avellaneda(),
+        'regresion_lineal_avellaneda' : regresion_linear_avellaneda()
     }
     return render_template('web-branches/avellanedaclasico.html',plots=plots)
 
 @app.route("/rosarioclasico")
 def enter_page_rosarioclasico():
     plots={
-        'victoria_aculumativa_rosario' : victoria_aculumativa_rosario()
+        'victoria_aculumativa_rosario' : victoria_aculumativa_rosario(),
+        'regresion_lineal_rosario' : regresion_linear_rosario()
     }
     return render_template('web-branches/rosarioclasico.html',plots=plots)
 
 @app.route("/zonasurclasico")
 def enter_page_zonasurclasico():
     plots={
-        'victoria_acumulado_zonasur' : victoria_acumulado_zonasur()
+        'victoria_acumulado_zonasur' : victoria_acumulado_zonasur(),
+        'regresion_lineal_zonasur' : regresion_linear_zonasur()
     }
     return render_template('web-branches/zonasurclasico.html',plots=plots)
 
-@app.route("/chargedataset")
-def enter_page_chargedataset():
-    return render_template('web-branches/chargedataset.html')
 
 @app.route("/viewdataset")
 def enter_page_viewdataset():
