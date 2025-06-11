@@ -82,16 +82,18 @@ def frequencywins_local_or_visit():
 
     return image_frequencywins_local_or_visit
 
-def victoria_aculumativa_rosario():
-    clasicos['match_result'] = clasicos.apply(lambda row: (
-    'Newells' if row['local_team'] == 'Newells' and row['local_result'] > row['visitor_result']
-    else 'Rosario Central' if row['visitor_team'] == 'Rosario Central' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+def victoria_acumulativa_rosario():
+    clasicorosario['match_result'] = clasicorosario.apply(
+    lambda row: row['local_team'] if row['local_result'] > row['visitor_result']
+    else row['visitor_team'] if row['visitor_result'] > row['local_result']
+    else 'Empate',
+    axis=1
+    )
 
     
-    clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
+    clasicorosario['anio'] = clasicorosario['date_name'].str.extract(r'(\d{4})').astype(int)
+    conteo = clasicorosario.groupby(['anio', 'match_result']).size().unstack(fill_value=0)
 
-    conteo = clasicos['match_result'].groupby(clasicos['anio']).value_counts().unstack(fill_value=0)
 
     for col in ['Newells', 'Rosario Central']:
         if col not in conteo.columns:
@@ -103,6 +105,7 @@ def victoria_aculumativa_rosario():
     def create_decade_colored_line(ax, x, y, colors, linewidth):
         points = np.array([x, y]).T.reshape(-1, 1, 2)
         segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
 
         decade_starts = x[0] + (x - x[0]) // 10 * 10
         color_cycle = []
@@ -116,17 +119,22 @@ def victoria_aculumativa_rosario():
         lc = LineCollection(segments, colors=color_cycle, linewidth=linewidth)
         ax.add_collection(lc)
 
+
     x = acumulado.index.values
     y_rc = acumulado['Rosario Central'].values
     y_new = acumulado['Newells'].values
+
 
     plt.figure(figsize=(8, 5))
     plt.style.use("default")
     ax = plt.gca()
 
+
     create_decade_colored_line(ax, x, y_rc, colors=['blue', 'yellow'], linewidth=3.5)
 
+
     create_decade_colored_line(ax, x, y_new, colors=['black', 'red'], linewidth=3.0)
+
 
     ax.set_xlim(x.min(), x.max())
     ax.set_ylim(0, max(y_rc.max(), y_new.max()) + 1)
@@ -135,6 +143,7 @@ def victoria_aculumativa_rosario():
     plt.ylabel('Victorias Acumuladas')
     plt.gca().xaxis.set_major_locator(MultipleLocator(10))
     plt.grid(False)
+
 
     custom_lines = [
         Line2D([0], [0], color='blue', lw=3.5, label='Rosario Central (Azul/Amarillo)'),
@@ -155,15 +164,17 @@ def victoria_aculumativa_rosario():
     return image_victoria_acumulada_rosario 
 
 def victoria_acumulada_super():
-    clasicos['match_result'] = clasicos.apply(lambda row: (
-    'River Plate' if row['local_team'] == 'River Plate' and row['local_result'] > row['visitor_result']
-    else 'Boca Juniors' if row['visitor_team'] == 'Boca Juniors' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+    superclasico['match_result'] = superclasico.apply(
+    lambda row: (
+        row['local_team'] if row['local_result'] > row['visitor_result']
+        else row['visitor_team'] if row['visitor_result'] > row['local_result']
+        else 'Empate'
+    ),
+    axis=1
+    )
 
-    clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
-
-
-    conteo = clasicos['match_result'].groupby(clasicos['anio']).value_counts().unstack(fill_value=0)
+    superclasico['anio'] = superclasico['date_name'].str.extract(r'(\d{4})').astype(int)
+    conteo = superclasico.groupby(['anio', 'match_result']).size().unstack(fill_value=0)
 
 
     for col in ['Boca Juniors', "River Plate"]:
@@ -190,18 +201,22 @@ def victoria_acumulada_super():
         lc = LineCollection(segments, colors=color_cycle, linewidth=linewidth)
         ax.add_collection(lc)
 
+
     x = acumulado.index.values
     y_rc = acumulado['Boca Juniors'].values
     y_new = acumulado['River Plate'].values
+
 
     plt.figure(figsize=(8, 5))
     plt.style.use("default")
     ax = plt.gca()
 
+
     create_decade_colored_line(ax, x, y_rc, colors=['blue', 'yellow'], linewidth=3.5)
 
 
     create_decade_colored_line(ax, x, y_new, colors=["#fae1de", 'red'], linewidth=3.0)
+
 
     ax.set_xlim(x.min(), x.max())
     ax.set_ylim(0, max(y_rc.max(), y_new.max()) + 1)
@@ -211,7 +226,7 @@ def victoria_acumulada_super():
     plt.gca().xaxis.set_major_locator(MultipleLocator(10))
     plt.grid(False)
 
-    
+
     custom_lines = [
         Line2D([0], [0], color='blue', lw=3.5, label='Boca Juniors '),
         Line2D([0], [0], color='yellow', lw=3.5),
@@ -231,15 +246,17 @@ def victoria_acumulada_super():
     return image_victoria_acumulada_super
 
 def victoria_acumulado_zonasur():
-    clasicos['match_result'] = clasicos.apply(lambda row: (
-    'Banfield' if row['local_team'] == 'Banfield' and row['local_result'] > row['visitor_result']
-    else 'Lanus' if row['visitor_team'] == 'Lanus' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+    clasicozonasur['match_result'] = clasicozonasur.apply(
+    lambda row: row['local_team'] if row['local_result'] > row['visitor_result']
+    else row['visitor_team'] if row['visitor_result'] > row['local_result']
+    else 'Empate',
+    axis=1
+    )
     
-    clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
+    clasicozonasur['anio'] = clasicozonasur['date_name'].str.extract(r'(\d{4})').astype(int)
+    conteo = clasicozonasur.groupby(['anio', 'match_result']).size().unstack(fill_value=0)
 
 
-    conteo = clasicos['match_result'].groupby(clasicos['anio']).value_counts().unstack(fill_value=0)
 
 
     for col in ['Lanus', 'Banfield']:
@@ -311,15 +328,16 @@ def victoria_acumulado_zonasur():
     return image_victoria_acumulada_zonasur
 
 def victoria_acumulada_avellaneda():
-    clasicos['match_result'] = clasicos.apply(lambda row: (
-    'Racing Club' if row['local_team'] == 'Racing Club' and row['local_result'] > row['visitor_result']
-    else 'Independiente' if row['visitor_team'] == 'Independiente' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+    clasicoavellaneda['match_result'] = clasicoavellaneda.apply(
+    lambda row: row['local_team'] if row['local_result'] > row['visitor_result']
+    else row['visitor_team'] if row['visitor_result'] > row['local_result']
+    else 'Empate',
+    axis=1
+    )
 
-    clasicos['anio'] = clasicos['date_name'].str.extract(r'(\d{4})').astype(int)
+    clasicoavellaneda['anio'] = clasicoavellaneda['date_name'].str.extract(r'(\d{4})').astype(int)
+    conteo = clasicoavellaneda.groupby(['anio', 'match_result']).size().unstack(fill_value=0)
 
-
-    conteo = clasicos['match_result'].groupby(clasicos['anio']).value_counts().unstack(fill_value=0)
 
 
     for col in ['Independiente', "Racing Club"]:
@@ -406,91 +424,47 @@ def entrenar_modelo(df, nombre_equipo):
     return modelo
 
 def regresion_linear_superclasico():
-    clasicos['match_result'] = clasicos.apply(lambda row: (
-    'River Plate' if row['local_team'] == 'River Plate' and row['local_result'] > row['visitor_result']
-    else 'Boca Juniors' if row['visitor_team'] == 'Boca Juniors' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
-
     superclasico['year'] = superclasico['date_name'].str.extract('(\d{4})').astype(int)
 
     superclasico['winner'] = superclasico.apply(lambda row: (
-    'River Plate' if row['local_team'] == 'River Plate' and row['local_result'] > row['visitor_result']
-    else 'Boca Juniors' if row['visitor_team'] == 'Boca Juniors' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+        row['local_team'] if row['local_result'] > row['visitor_result']
+        else row['visitor_team'] if row['visitor_result'] > row['local_result']
+        else 'Empate'), axis=1)
 
-    victorias = superclasico[superclasico['winner'].isin(['Boca Juniors', 'River Plate'])]
+    equipos = ['Boca Juniors', 'River Plate']
+    df_cumuls = {}
 
-    ganados_por_anio = victorias.groupby(['year', 'winner']).size().reset_index(name='wins')
-
-    boca_df = ganados_por_anio[ganados_por_anio['winner'] == 'Boca Juniors'][['year', 'wins']]
-    river_df = ganados_por_anio[ganados_por_anio['winner'] == 'River Plate'][['year', 'wins']]
-
-    modelo_boca = entrenar_modelo(boca_df, "Boca Juniors")
-    modelo_river = entrenar_modelo(river_df, "River Plate")
-
-    anios_futuros = np.array([2025, 2026, 2027, 2030, 2035, 2040]).reshape(-1, 1)
-
-    pred_boca = modelo_boca.predict(anios_futuros)
-    pred_river = modelo_river.predict(anios_futuros)
-
-    boca_df = ganados_por_anio[ganados_por_anio['winner'] == 'Boca Juniors'].sort_values('year')
-
-
-    X = boca_df['year'].values.reshape(-1, 1)
-    y = boca_df['wins'].values
-
-    modelo = LinearRegression()
-    modelo.fit(X, y)
-
-
-    anios_futuros = np.arange(boca_df['year'].max() + 1, 2031).reshape(-1, 1)
-    predicciones = modelo.predict(anios_futuros)
-
-
-    predicciones = np.clip(predicciones, 0, None)
-
-
-    def obtener_victorias_acumuladas(df, equipo, anio_final=2040):
-        df_eq = df[df['winner'] == equipo].sort_values('year')
-        X = df_eq['year'].values.reshape(-1, 1)
-        y = df_eq['wins'].values
+    for equipo in equipos:
+        df_eq = superclasico[superclasico['winner'] == equipo]
+        victorias_anuales = df_eq.groupby('year').size().reindex(range(2000, 2025), fill_value=0).reset_index()
+        victorias_anuales.columns = ['year', 'wins']
+        victorias_anuales['wins_cum'] = victorias_anuales['wins'].cumsum()
 
         modelo = LinearRegression()
+        X = victorias_anuales['year'].values.reshape(-1, 1)
+        y = victorias_anuales['wins_cum'].values
         modelo.fit(X, y)
 
-        anios_futuros = np.arange(df_eq['year'].max() + 1, anio_final + 1).reshape(-1, 1)
-        pred = np.clip(modelo.predict(anios_futuros), 0, None)
+        anios_futuros = np.arange(2025, 2041).reshape(-1, 1)
+        pred_futuro = modelo.predict(anios_futuros)
 
-        df_eq['wins_cumul'] = df_eq['wins'].cumsum()
-        ultimo_total_real = df_eq['wins_cumul'].iloc[-1]
-        pred_cumul = np.cumsum(pred) + ultimo_total_real
+        x_total = np.concatenate([victorias_anuales['year'], anios_futuros.flatten()])
+        y_total = np.concatenate([victorias_anuales['wins_cum'], pred_futuro])
 
-        anios_totales = np.concatenate([df_eq['year'].values, anios_futuros.flatten()])
-        victorias_totales = np.concatenate([df_eq['wins_cumul'].values, pred_cumul])
-        return anios_totales, victorias_totales, df_eq['year'].max()
+        df_cumuls[equipo] = (x_total, y_total)
 
-
-    boca_x, boca_y, anio_corte_boca = obtener_victorias_acumuladas(ganados_por_anio, 'Boca Juniors')
-    river_x, river_y, anio_corte_river = obtener_victorias_acumuladas(ganados_por_anio, 'River Plate')
-
-
-    plt.plot(boca_x, boca_y,  color='blue', label='Boca Juniors')
-    plt.plot(river_x, river_y,  color='red', label='River Plate')
-
-
-    plt.axvline(x=anio_corte_boca, color='gray', linestyle='--', label='Fin datos reales')
-
-
-    plt.xticks(np.arange(min(boca_x.min(), river_x.min()), 2040,5))
-    plt.xlim(2000, 2040)
-    plt.ylim(55, 105)
+    # Plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(*df_cumuls['Boca Juniors'], label='Boca Juniors', color='blue')
+    plt.plot(*df_cumuls['River Plate'], label='River Plate', color='red')
+    plt.axvline(x=2024, color='gray', linestyle='--', label='Fin datos reales')
     plt.title('Victorias Boca vs River : prediccion con Regresion Lineal')
     plt.xlabel('Año')
-    plt.ylabel('Victorias acumuladas')
+    plt.ylabel('Victorias Acumuladas')
     plt.legend()
     plt.grid(False)
     plt.tight_layout()
-    
+
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
@@ -499,6 +473,7 @@ def regresion_linear_superclasico():
     plt.close()
 
     return image_regresion_lineal_super
+
 
 def regresion_linear_avellaneda():
     clasicos['match_result'] = clasicos.apply(lambda row: (
@@ -564,6 +539,7 @@ def regresion_linear_avellaneda():
     plt.legend()
     plt.grid(False)
     plt.tight_layout()
+    
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
@@ -575,25 +551,26 @@ def regresion_linear_avellaneda():
 
 def regresion_linear_zonasur():
     clasicos['match_result'] = clasicos.apply(lambda row: (
-    'Banfield' if row['local_team'] == 'Banfield' and row['local_result'] > row['visitor_result']
-    else 'Lanus' if row['visitor_team'] == 'Lanus' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+        'Banfield' if row['local_team'] == 'Banfield' and row['local_result'] > row['visitor_result']
+        else 'Lanus' if row['visitor_team'] == 'Lanus' and row['visitor_result'] > row['local_result']
+        else 'Empate'), axis=1)
 
     clasicozonasur['year'] = clasicozonasur['date_name'].str.extract('(\d{4})').astype(int)
     clasicozonasur['winner'] = clasicozonasur.apply(lambda row: (
-    'Banfield' if row['local_team'] == 'Banfield' and row['local_result'] > row['visitor_result']
-    else 'Lanus' if row['visitor_team'] == 'Lanus' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
+        'Banfield' if row['local_team'] == 'Banfield' and row['local_result'] > row['visitor_result']
+        else 'Lanus' if row['visitor_team'] == 'Lanus' and row['visitor_result'] > row['local_result']
+        else 'Empate'), axis=1)
+
     victorias = clasicozonasur[clasicozonasur['winner'].isin(['Lanus', 'Banfield'])]
     ganados_por_anio = victorias.groupby(['year', 'winner']).size().reset_index(name='wins')
 
-    lanus_df = ganados_por_anio[ganados_por_anio['winner'] == 'Lanus'][['year', 'wins']]
-    banfield_df = ganados_por_anio[ganados_por_anio['winner'] == 'Banfield'][['year', 'wins']]
+    lanus_df = ganados_por_anio[ganados_por_anio['winner'] == 'Lanus'][['year', 'wins']].sort_values('year')
+    banfield_df = ganados_por_anio[ganados_por_anio['winner'] == 'Banfield'][['year', 'wins']].sort_values('year')
 
     modelo_lanus = entrenar_modelo(lanus_df, "Lanus")
     modelo_banfield = entrenar_modelo(banfield_df, "Banfield")
 
-    anios_futuros = np.array([2025, 2026, 2027, 2030, 2035, 2040,2050,2055,2060]).reshape(-1, 1)
+    anios_futuros = np.array([2025, 2026, 2027, 2030, 2035, 2040, 2050, 2055, 2060]).reshape(-1, 1)
 
     pred_lanus = modelo_lanus.predict(anios_futuros)
     pred_banfield = modelo_banfield.predict(anios_futuros)
@@ -606,7 +583,6 @@ def regresion_linear_zonasur():
         modelo = LinearRegression()
         modelo.fit(X, y)
 
-
         anios_futuros = np.arange(df_eq['year'].max() + 1, anio_final + 1).reshape(-1, 1)
         pred = np.clip(modelo.predict(anios_futuros), 0, None)
 
@@ -618,18 +594,15 @@ def regresion_linear_zonasur():
         victorias_totales = np.concatenate([df_eq['wins_cumul'].values, pred_cumul])
         return anios_totales, victorias_totales, df_eq['year'].max()
 
-
     lanus_x, lanus_y, anio_corte_lanus = obtener_victorias_acumuladas(ganados_por_anio, 'Lanus')
     banfield_x, banfield_y, anio_corte_banfield = obtener_victorias_acumuladas(ganados_por_anio, 'Banfield')
 
-
-    plt.plot(lanus_x, lanus_y,  color='maroon', label='Lanus')
-    plt.plot(banfield_x, banfield_y,  color='lightgreen', label='Banfield')
-
+    plt.plot(lanus_x, lanus_y, color='maroon', label='Lanus')
+    plt.plot(banfield_x, banfield_y, color='lightgreen', label='Banfield')
 
     plt.axvline(x=anio_corte_lanus, color='gray', linestyle='--', label='Fin datos reales')
 
-    plt.xticks(np.arange(min(lanus_x.min(), banfield_x.min()), 2060,5))
+    plt.xticks(np.arange(min(lanus_x.min(), banfield_x.min()), 2060, 5))
     plt.xlim(2000, 2060)
     plt.ylim(5, 80)
     plt.title('Victorias Lanus vs Banfield : prediccion con Regresion Lineal')
@@ -647,73 +620,49 @@ def regresion_linear_zonasur():
     plt.close()
 
     return image_regresion_lineal_zonasur
+
     
 def regresion_linear_rosario():
-    clasicos['match_result'] = clasicos.apply(lambda row: (
-    'Newells' if row['local_team'] == 'Newells' and row['local_result'] > row['visitor_result']
-    else 'Rosario Central' if row['visitor_team'] == 'Rosario Central' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
-
     clasicorosario['year'] = clasicorosario['date_name'].str.extract('(\d{4})').astype(int)
     clasicorosario['winner'] = clasicorosario.apply(lambda row: (
-    'Newells' if row['local_team'] == 'Newells' and row['local_result'] > row['visitor_result']
-    else 'Rosario Central' if row['visitor_team'] == 'Rosario Central' and row['visitor_result'] > row['local_result']
-    else 'Empate'), axis=1)
-    victorias = clasicorosario[clasicorosario['winner'].isin(['Newells', 'Rosario Central'])]
-    ganados_por_anio = victorias.groupby(['year', 'winner']).size().reset_index(name='wins')
+        row['local_team'] if row['local_result'] > row['visitor_result']
+        else row['visitor_team'] if row['visitor_result'] > row['local_result']
+        else 'Empate'), axis=1)
 
-    newells_df = ganados_por_anio[ganados_por_anio['winner'] == 'Newells'][['year', 'wins']]
-    rosario_df = ganados_por_anio[ganados_por_anio['winner'] == 'Rosario Central'][['year', 'wins']]
+    equipos = ['Newells', 'Rosario Central']
+    df_cumuls = {}
 
-    modelo_newells = entrenar_modelo(newells_df, "Newells")
-    modelo_rosario = entrenar_modelo(rosario_df, "Rosario Central")
-
-    anios_futuros = np.array([2025, 2026, 2027, 2030, 2035, 2040,2050,2055,2060]).reshape(-1, 1)
-
-    pred_newells = modelo_newells.predict(anios_futuros)
-    pred_rosario = modelo_rosario.predict(anios_futuros)
-
-    def obtener_victorias_acumuladas(df, equipo, anio_final=2060):
-        df_eq = df[df['winner'] == equipo].sort_values('year')
-        X = df_eq['year'].values.reshape(-1, 1)
-        y = df_eq['wins'].values
+    for equipo in equipos:
+        df_eq = clasicorosario[clasicorosario['winner'] == equipo]
+        victorias_anuales = df_eq.groupby('year').size().reindex(range(1960, 2025), fill_value=0).reset_index()
+        victorias_anuales.columns = ['year', 'wins']
+        victorias_anuales['wins_cum'] = victorias_anuales['wins'].cumsum()
 
         modelo = LinearRegression()
+        X = victorias_anuales['year'].values.reshape(-1, 1)
+        y = victorias_anuales['wins_cum'].values
         modelo.fit(X, y)
 
+        anios_futuros = np.arange(2025, 2061).reshape(-1, 1)
+        pred_futuro = modelo.predict(anios_futuros)
 
-        anios_futuros = np.arange(df_eq['year'].max() + 1, anio_final + 1).reshape(-1, 1)
-        pred = np.clip(modelo.predict(anios_futuros), 0, None)
+        x_total = np.concatenate([victorias_anuales['year'], anios_futuros.flatten()])
+        y_total = np.concatenate([victorias_anuales['wins_cum'], pred_futuro])
 
-        df_eq['wins_cumul'] = df_eq['wins'].cumsum()
-        ultimo_total_real = df_eq['wins_cumul'].iloc[-1]
-        pred_cumul = np.cumsum(pred) + ultimo_total_real
+        df_cumuls[equipo] = (x_total, y_total)
 
-        anios_totales = np.concatenate([df_eq['year'].values, anios_futuros.flatten()])
-        victorias_totales = np.concatenate([df_eq['wins_cumul'].values, pred_cumul])
-        return anios_totales, victorias_totales, df_eq['year'].max()
-
-    newells_x, newells_y, anio_corte_newells = obtener_victorias_acumuladas(ganados_por_anio, 'Newells')
-    rosario_x, rosario_y, anio_corte_rosario = obtener_victorias_acumuladas(ganados_por_anio, 'Rosario Central')
-
-
-    plt.plot(newells_x, newells_y,  color='black', label='Newells')
-    plt.plot(rosario_x, rosario_y,  color='yellow', label='Rosario Central')
-
-
-    plt.axvline(x=anio_corte_newells, color='gray', linestyle='--', label='Fin datos reales')
-
-
-    plt.xticks(np.arange(min(newells_x.min(), rosario_x.min()), 2060,5))
-    plt.xlim(2000, 2060)
-    plt.ylim(30, 110)
-    plt.title('Victorias Newells vs Rosario Central : prediccion con Regresion Lineal')
+    # Plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(*df_cumuls['Newells'], label='Newells', color='black')
+    plt.plot(*df_cumuls['Rosario Central'], label='Rosario Central', color='gold')
+    plt.axvline(x=2024, color='gray', linestyle='--', label='Fin datos reales')
+    plt.title('Regresión Lineal sobre Victorias Acumuladas')
     plt.xlabel('Año')
-    plt.ylabel('Victorias acumuladas')
+    plt.ylabel('Victorias Acumuladas')
     plt.legend()
     plt.grid(False)
     plt.tight_layout()
-    
+
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)

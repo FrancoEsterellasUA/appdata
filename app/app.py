@@ -60,7 +60,7 @@ def enter_page_avellanedaclasico():
 @app.route("/rosarioclasico")
 def enter_page_rosarioclasico():
     plots={
-        'victoria_aculumativa_rosario' : victoria_aculumativa_rosario(),
+        'victoria_aculumativa_rosario' : victoria_acumulativa_rosario(),
         'regresion_lineal_rosario' : regresion_linear_rosario()
     }
     return render_template('web-branches/rosarioclasico.html',plots=plots)
