@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request, url_for, redirect
 from plots import *
 from linked import db
 from modeldb import Matches
@@ -76,8 +76,14 @@ def enter_page_zonasurclasico():
 
 @app.route("/viewdataset")
 def enter_page_viewdataset():
-    matches = Matches.query.all()
-    return render_template('web-branches/viewdataset.html', matches=matches)
+    page = request.args.get('page', 1, type=int)
+    per_page = 25
+    
+    pagination = Matches.query.paginate(page=page, per_page=per_page)
+    matches = pagination.items
+
+    # matches = Matches.query.all()
+    return render_template('web-branches/viewdataset.html', matches=matches, pagination=pagination)
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)

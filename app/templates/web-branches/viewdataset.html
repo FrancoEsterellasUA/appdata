@@ -8,10 +8,23 @@
 <h1 class="title">Vista del dataset</h1>
 <p class="subtitle">Aca vamos a ver el dataset!</p>
 
+<div style="color: white; text-align: center; width: 100%;">
 
-<div style="display: flex; flex-direction: row; justify-content: center; background-color: rgb(9, 6, 1);">
+{% if pagination.has_prev %}
+  <a href="{{ url_for('enter_page_viewdataset', page=pagination.prev_num) }}" style="color: lightblue; text-decoration: none;">Anterior    </a>
+{% endif %}
+
+<span>Página {{ pagination.page }} de {{ pagination.pages }}</span>
+
+{% if pagination.has_next %}
+  <a href="{{ url_for('enter_page_viewdataset', page=pagination.next_num) }}" style="color: lightblue; text-decoration: none;">    Siguiente</a>
+{% endif %}
+
+</div>
+
+<div style="display: flex; flex-direction: row; justify-content: center;">
 <table  style="width: 80%; border: 2px; background-color: rgb(255, 255, 193); color: rgb(11, 7, 0);">
-  <thead style="background-color: rgb(9, 6, 3); color: rgb(255, 255, 181);">
+  <thead style="background-color: rgb(28, 25, 23); color: rgb(255, 255, 181);">
     <tr style="text-align: center;">
       <th>Tournament</th>
       <th>Local Team</th>
