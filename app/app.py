@@ -1,7 +1,8 @@
-from flask import Flask,render_template, request, url_for, redirect
+from flask import Flask,render_template, request, url_for, redirect, flash
 from plots import *
 from linked import db
 from modeldb import Matches
+from ML_prediction import modelo
 
 
 app = Flask(__name__)
@@ -84,6 +85,31 @@ def enter_page_viewdataset():
 
     # matches = Matches.query.all()
     return render_template('web-branches/viewdataset.html', matches=matches, pagination=pagination)
+
+@app.route("/ML_prediction", methods=["GET", "POST"])
+def prediction():
+    if request.method == "POST":
+        selected_team = request.form['selected_team']
+        selected_local_goals = int(request.form['selected_local_goals'])
+        selected_decade = int(request.form['selected_decade'])
+
+        if selected_team == "Boca Juniors" and selected_local_goals > -1 and 1930 <= selected_decade <= 2020:
+            new_prediction = pd.DataFrame([{'Boca Juniors': True, 'River Plate': False, 'local_result': selected_local_goals, 'year': selected_decade}])
+            pred_value = modelo.predict_proba(new_prediction)
+            pred_value= int(pred_value[0][1] *100) 
+            return render_template('web-branches/ML_prediction.html', pred_value=pred_value)
+
+        elif selected_team == "River Plate" and selected_local_goals > -1 and 1930 <= selected_decade <= 2020:
+            new_prediction = pd.DataFrame([{'Boca Juniors': False, 'River Plate': True, 'local_result': selected_local_goals, 'year': selected_decade}])
+            pred_value = modelo.predict_proba(new_prediction)
+            pred_value= int(pred_value[0][1] *100) 
+            return render_template('web-branches/ML_prediction.html', pred_value=pred_value)
+
+        else:
+            flash("Error en los datos ingresados.", "warning")
+            return render_template('web-branches/ML_prediction.html')
+
+    return render_template("web-branches/ML_prediction.html")
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)

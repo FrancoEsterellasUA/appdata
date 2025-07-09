@@ -120,6 +120,26 @@
   gap: 20px;               
   padding: 20px;
 }
+.ml_whole_container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+.ml_prediction_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #212529;
+  color: white;
+  border-radius: 8%;
+  width: 33%;
+  height: 300px;
+  margin: 20px;
+}
 
 @media (max-width: 768px) {
 

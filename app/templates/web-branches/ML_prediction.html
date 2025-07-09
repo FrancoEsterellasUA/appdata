@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  
+{% endblock %}
+
+{% block body %}
+<div class="ml_whole_container">
+    <div class="ml_prediction_container">
+        <form action="/ML_prediction" method="post">
+            <label>Equipo Local: </label>
+            <input type="text" name="selected_team" list="ml_teams" value="equipo">
+
+                <datalist id="ml_teams">
+                <option value="Boca Juniors">
+                <option value="River Plate">
+                </datalist>
+            
+            <br><br>
+            <label>Goles del Local</label>
+            <input type="number" step="1" name="selected_local_goals" value="-1">
+            <br><br>
+            <label>Decada: </label>
+            <input type="number" step="10" min="1930" max="2020" name="selected_decade" value="-1">
+            <br><br>
+            <input type="submit">
+        </form>
+        <br>
+        {% if pred_value %}
+        <h3>Probabilidad de ganar {{pred_value}}%</h3>
+        {% else %}
+        <h3>Haz tu prediccion!</h3>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
