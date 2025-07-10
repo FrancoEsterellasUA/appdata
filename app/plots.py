@@ -24,7 +24,7 @@ superclasico = df[
 
 clasicoavellaneda = df[
     ((df['local_team'] == 'Racing Club') & (df['visitor_team'] == 'Independiente')) |
-    ((df['local_team'] == 'Independiente') & (df['visitor_team'] == 'Racing'))
+    ((df['local_team'] == 'Independiente') & (df['visitor_team'] == 'Racing Club'))
 ]
 
 clasicozonasur = df[

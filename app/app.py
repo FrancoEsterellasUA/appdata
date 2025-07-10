@@ -93,21 +93,22 @@ def prediction():
         selected_local_goals = int(request.form['selected_local_goals'])
         selected_decade = int(request.form['selected_decade'])
 
-        if selected_team == "Boca Juniors" and selected_local_goals > -1 and 1930 <= selected_decade <= 2020:
-            new_prediction = pd.DataFrame([{'Boca Juniors': True, 'River Plate': False, 'local_result': selected_local_goals, 'year': selected_decade}])
-            pred_value = modelo.predict_proba(new_prediction)
+        if selected_local_goals > -1 and 1930 <= selected_decade and selected_decade <= 2020:
+            equipos = ['Banfield','Boca Juniors','Independiente','Lanus','Newells','Racing Club','River Plate','Rosario Central']
+            registro_base = dict.fromkeys(equipos, False)
+            registro_base[selected_team] = True
+
+            registro_base.update({
+                'local_result': selected_local_goals,
+                'year': selected_decade
+            })
+
+            nuevo_sample = pd.DataFrame([registro_base])
+
+            pred_value = modelo.predict_proba(nuevo_sample)
             pred_value= int(pred_value[0][1] *100) 
             return render_template('web-branches/ML_prediction.html', pred_value=pred_value)
 
-        elif selected_team == "River Plate" and selected_local_goals > -1 and 1930 <= selected_decade <= 2020:
-            new_prediction = pd.DataFrame([{'Boca Juniors': False, 'River Plate': True, 'local_result': selected_local_goals, 'year': selected_decade}])
-            pred_value = modelo.predict_proba(new_prediction)
-            pred_value= int(pred_value[0][1] *100) 
-            return render_template('web-branches/ML_prediction.html', pred_value=pred_value)
-
-        else:
-            flash("Error en los datos ingresados.", "warning")
-            return render_template('web-branches/ML_prediction.html')
 
     return render_template("web-branches/ML_prediction.html")
 
