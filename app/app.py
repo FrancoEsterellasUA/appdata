@@ -36,8 +36,8 @@ with app.app_context():
 @app.route("/")
 def enter_general():
     plots= {
-        "frequency_of_winning" : frequencywins_local_or_visit()
-        
+        "frequency_of_winning" : frequencywins_local_or_visit(),
+        "goles_eachone" : goles_eachone()
     }
 
     return render_template('web-branches/general.html',plots=plots)

@@ -39,6 +39,84 @@ clasicorosario = df[
 
 clasicos = pd.concat([superclasico, clasicoavellaneda, clasicorosario, clasicozonasur], ignore_index=True)
 
+def goles_eachone():
+    # Goles hechos por Boca Juniors
+    goles_boca_local = clasicos.loc[clasicos['local_team'] == 'Boca Juniors', 'local_result'].sum()
+    goles_boca_visitante = clasicos.loc[clasicos['visitor_team'] == 'Boca Juniors', 'visitor_result'].sum()
+    goles_boca_total = goles_boca_local + goles_boca_visitante
+
+    # Goles hechos por River Plate
+    goles_river_local = clasicos.loc[clasicos['local_team'] == 'River Plate', 'local_result'].sum()
+    goles_river_visitante = clasicos.loc[clasicos['visitor_team'] == 'River Plate', 'visitor_result'].sum()
+    goles_river_total = goles_river_local + goles_river_visitante
+
+    # Goles hechos por Lanús
+    goles_lanus_local = clasicos.loc[clasicos['local_team'] == 'Lanus', 'local_result'].sum()
+    goles_lanus_visitante = clasicos.loc[clasicos['visitor_team'] == 'Lanus', 'visitor_result'].sum()
+    goles_lanus_total = goles_lanus_local + goles_lanus_visitante
+
+    # Goles hechos por Banfield
+    goles_banfield_local = clasicos.loc[clasicos['local_team'] == 'Banfield', 'local_result'].sum()
+    goles_banfield_visitante = clasicos.loc[clasicos['visitor_team'] == 'Banfield', 'visitor_result'].sum()
+    goles_banfield_total = goles_banfield_local + goles_banfield_visitante
+
+    # Goles hechos por Independiente
+    goles_independiente_local = clasicos.loc[clasicos['local_team'] == 'Independiente', 'local_result'].sum()
+    goles_independiente_visitante = clasicos.loc[clasicos['visitor_team'] == 'Independiente', 'visitor_result'].sum()
+    goles_independiente_total = goles_independiente_local + goles_independiente_visitante
+
+    # Goles hechos por Racing Club
+    goles_racing_local = clasicos.loc[clasicos['local_team'] == 'Racing Club', 'local_result'].sum()
+    goles_racing_visitante = clasicos.loc[clasicos['visitor_team'] == 'Racing Club', 'visitor_result'].sum()
+    goles_racing_total = goles_racing_local + goles_racing_visitante
+
+    # Goles hechos por Rosario Central
+    goles_central_local = clasicos.loc[clasicos['local_team'] == 'Rosario Central', 'local_result'].sum()
+    goles_central_visitante = clasicos.loc[clasicos['visitor_team'] == 'Rosario Central', 'visitor_result'].sum()
+    goles_central_total = goles_central_local + goles_central_visitante
+
+    # Goles hechos por Newell's
+    goles_newells_local = clasicos.loc[clasicos['local_team'] == 'Newells', 'local_result'].sum()
+    goles_newells_visitante = clasicos.loc[clasicos['visitor_team'] == 'Newells', 'visitor_result'].sum()
+    goles_newells_total = goles_newells_local + goles_newells_visitante
+
+    # Datos para el gráfico
+    equipos = [
+        'Boca Juniors', 'River Plate', 'Lanus', 'Banfield',
+        'Independiente', 'Racing Club', 'Rosario Central', 'Newells'
+    ]
+    goles_totales = [
+        goles_boca_total, goles_river_total, goles_lanus_total, goles_banfield_total,
+        goles_independiente_total, goles_racing_total, goles_central_total, goles_newells_total
+    ]
+
+    colores = ['blue', '#d1001f', 'maroon', '#46923c', 'red', '#90d5ff', 'yellow', "#c60000"]
+
+    def mostrar_goles(pct, todos_los_goles):
+        total = sum(todos_los_goles)
+        goles = int(round(pct * total / 100.0))
+        return f'{goles} goles'
+
+    plt.figure(figsize=(6, 8))
+    plt.pie(
+        goles_totales,
+        labels=equipos,
+        autopct=lambda pct: mostrar_goles(pct, goles_totales),
+        startangle=140,
+        colors=colores  # Usa tu lista de colores preferida
+    )
+    plt.title('Total de goles en clásicos del fútbol argentino')
+    plt.axis('equal')
+    
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    image_goals_eachone = base64.b64encode(buf.read()).decode('utf-8')
+    buf.close()
+    plt.close()
+
+    return image_goals_eachone 
+
 def mostplayed_clasics():
     quantity_superclasico= len(superclasico)
     quantity_clasicoavellaneda= len(clasicoavellaneda)

@@ -53,7 +53,12 @@
     <strong>Lanús vs Banfield</strong><br>
     El Clásico del Sur: un duelo barrial cargado de historia y rivalidad genuina. Aunque menos mediático que otros, su intensidad no tiene nada que envidiarles. Es el enfrentamiento de dos clubes en crecimiento, con hinchadas fieles y profundamente identificadas con su barrio.
   </p>
+  
   <div class="graficos-cont">
+      <button class="boton-predic">
+      <a class="nav-link" href="ML_prediction">Hace tu predicción</a>
+      </button>
   <div class="graficos"><img src="data:image/png;base64,{{ plots['frequency_of_winning']}}"a></div>
+  <div class="graficos"><img src="data:image/png;base64,{{ plots['goles_eachone']}}"a style="height: 750px;"></div>
   </div>
 {% endblock %}

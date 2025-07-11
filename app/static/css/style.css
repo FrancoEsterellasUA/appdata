@@ -140,6 +140,15 @@
   height: 300px;
   margin: 20px;
 }
+.introduction_ml{
+  margin-top: 25px !important;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+  word-wrap: break-word;
+}
 
 .boton-predic {
   display: flex;
